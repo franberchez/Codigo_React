@@ -1,0 +1,15 @@
+h1, p {
+  font-family: Lato;
+}
+
+h1 {
+  cursor: pointer;
+}
+
+.red {
+  background-color: red;
+}
+
+.blue {
+  color: blue;
+}
