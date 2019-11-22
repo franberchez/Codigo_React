@@ -1,0 +1,47 @@
+body {
+	background-color: #ebebeb;
+}
+
+.posicion {
+	margin-top: 5%;
+    margin-left: 5%;
+    display: flex;
+    justify-content: center;
+}
+
+#checkbox {
+	margin-left: 1%;
+}
+
+.formulario {
+	display: inline;
+	text-align: center;
+}
+
+.formulario input {
+	margin-top: 5%;
+	width: 50%;
+	border-radius: 5px;
+}
+
+.formulario textarea {
+	margin-top: 5%;
+	margin-bottom: 5%;
+	width: 51%;
+	border-radius: 5px;
+	resize: none;
+}
+
+.cabecera {
+	justify-content: center;
+	border: solid #282c34;
+	background-color: #282c34;
+	color: white;
+	display: flex;
+}
+
+#logo {
+	margin-left: 2%;
+	margin-top: 0.5%;
+	margin-bottom: 0.5%;
+}
