@@ -1,0 +1,1169 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Librería ReactJS]]></title><description><![CDATA[Librería ReactJS]]></description><link>https://gatsby-starter-blog-demo.netlify.com</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 23 Nov 2019 09:17:21 GMT</lastBuildDate><item><title><![CDATA[Hooks]]></title><description><![CDATA[Los hooks son una nueva API de la librería de React que nos permite tener estado, y otras características de React, en los componentes…]]></description><link>https://gatsby-starter-blog-demo.netlify.com/hooks/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com/hooks/</guid><pubDate>Sun, 17 Nov 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;Los hooks son una nueva API de la librería de React que nos permite tener estado, y otras características de React, en los componentes creados con una &lt;strong&gt;function&lt;/strong&gt;. Esto antes no era posible ya que estabamos obligados a crear un componente &lt;strong&gt;class&lt;/strong&gt; para poder acceder a todas las posibilidades de la librería. Sin embargo, con los hooks podemos enganchar nuestros componentes funcionales a todas las características de React.&lt;/p&gt;
+&lt;h2&gt;Funcionamiento&lt;/h2&gt;
+&lt;p&gt;El código de esta aplicación lo puedes encontrar &lt;a href=&quot;https://github.com/franberchez/Codigo_React&quot;&gt;aquí&lt;/a&gt;.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;// importamos useState, el hook para crear un state en nuestro componente
+import React, { useState } from &amp;#39;react&amp;#39;
+
+function Contador() {
+  // useState recibe un parámetro: el valor inicial del estado (que será 0)
+  // y devuelve un array de dos posiciones:
+  // la primera (count), tiene el valor del estado
+  // la segunda (setCount), el método para actualizar el estado y el cual podemos llamarlo como queramos al igual que count
+  const [count, setCount] = useState(0)
+
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;p&amp;gt;Has hecho click {count} veces&amp;lt;/p&amp;gt;
+      { /* actualizamos el state al hacer click con setCount */ }
+      &amp;lt;button onClick={() =&amp;gt; setCount(count + 1)}&amp;gt;
+        Haz click!
+      &amp;lt;/button&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;En el ejemplo usamos el hook &lt;strong&gt;useState&lt;/strong&gt; con el objetivo de hacer que nuestro componente funcional &lt;strong&gt;Contador&lt;/strong&gt; tenga un estado interno. Podemos observar que hay varios aspectos cambinates en cuanto a la forma original de usar el componente &lt;strong&gt;class&lt;/strong&gt; de React. Podemos observar que la forma de modificarle el estado o &lt;strong&gt;state&lt;/strong&gt; es diferente, ya que si nos fijamos ya no usamos el tradicional &lt;strong&gt;this.setState&lt;/strong&gt;, si no que ahora lo actualizamos usando el método que hemos definido en el ejemplo &lt;strong&gt;setCount&lt;/strong&gt; cuyo único propósito es modificar el valor del contador.&lt;/p&gt;
+&lt;p&gt;Otro ejemplo pero con referenciado condicional y haciendo uso de los hooks sería el siguiente:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;import React, { useState } from &amp;#39;react&amp;#39;
+
+const Door = () =&amp;gt; {
+  const [open, setOpen] = useState(false)
+
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;h1&amp;gt;La puerta esta {open ? &amp;#39;abierta&amp;#39; : &amp;#39;cerrada&amp;#39;}&amp;lt;/h1&amp;gt;
+      &amp;lt;button onClick={() =&amp;gt; setOpen(!open)}&amp;gt;
+        {open ? &amp;#39;Cerrar&amp;#39; : &amp;#39;Abrir&amp;#39;}
+      &amp;lt;/button&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+export default Door&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;¿El por qué de los Hooks?&lt;/h2&gt;
+&lt;h3&gt;Las clases confunden a las personas y a las máquinas&lt;/h3&gt;
+&lt;p&gt;Para las personas pueden suponer un obstáculo a la hora de empezar a trabajar con React y entender su correcto funcionamiento, asi como para las máquinas, siendo uno de los motivos más importantes el hecho de que las clases no minifican (hacer el código mas liviano o sencillo) tan bien como las funciones, lo que implicá que el código para implementarlo ocupará más.&lt;/p&gt;
+&lt;h3&gt;Era difícil reutilizar la lógica de los componentes&lt;/h3&gt;
+&lt;p&gt;Aunque la reutilización de componentes era una de las grandes bazas de React, existía cierta limitación a la hora de reurilizar la lógica interna de cada componente. Por lo que a lo largo de la vida de esta librería se han intentando buscar soluciones al problema. Primero surgieron los &lt;strong&gt;Mixins&lt;/strong&gt; que acabaron resultando demasiado complejos, luego surgieron los &lt;strong&gt;HoC (High Order Components)&lt;/strong&gt;, a continuación los &lt;strong&gt;Render Props&lt;/strong&gt; y por último surgió el asunto que nos ocupa que son los &lt;strong&gt;Hooks&lt;/strong&gt; como solución al problema.&lt;/p&gt;
+&lt;h3&gt;Los componentes complejos acababan siendo difíciles de entender&lt;/h3&gt;
+&lt;p&gt;El ciclo de vida de los componentes de React, que podíamos usar en los componentes con &lt;strong&gt;class&lt;/strong&gt;, era una pontentísima forma de ejecutar código, aunque se presentaba la complejidad de entender lo que podía hacer un componente.&lt;/p&gt;
+&lt;h3&gt;Algunas aclaraciones&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;El uso de los Hooks es completamente opcional, es decir, no es obligatorio usarlos para crear una aplicación con React.&lt;/li&gt;
+&lt;li&gt;Los Hooks son 100% compatibles con versiones anteriores.&lt;/li&gt;
+&lt;li&gt;Ya se encuentran disponibles para utilizarlos.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Enlaces de ínteres&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://midu.dev/react-hooks-introduccion-saca-todo-el-potencial-sin-class/&quot;&gt;https://midu.dev/react-hooks-introduccion-saca-todo-el-potencial-sin-class/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://es.reactjs.org/docs/hooks-intro.html&quot;&gt;https://es.reactjs.org/docs/hooks-intro.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://ed.team/blog/introduccion-los-hooks-de-react&quot;&gt;https://ed.team/blog/introduccion-los-hooks-de-react&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Referencias en React]]></title><description><![CDATA[En este artículo nos centraremos en el uso de referencias en los componentes de React, lo cual otorga flexibilidad a la hora de manipular y…]]></description><link>https://gatsby-starter-blog-demo.netlify.com/Referencias-React/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com/Referencias-React/</guid><pubDate>Sat, 16 Nov 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;En este artículo nos centraremos en el uso de referencias en los componentes de React, lo cual otorga flexibilidad a la hora de manipular y manejar el DOM de nuestros componentes.&lt;/p&gt;
+&lt;h2&gt;Uso de las referencias&lt;/h2&gt;
+&lt;p&gt;Según la &lt;a href=&quot;https://es.reactjs.org/docs/refs-and-the-dom.html&quot;&gt;documentación oficial&lt;/a&gt; las referencias son una forma de acceder a los elementos del árbl DOM o elementos React creados en el método render, y se recomienda utilizarlas en los siguientes casos:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Controlar inputs o selección de texto.&lt;/li&gt;
+&lt;li&gt;Manejo de animaciones&lt;/li&gt;
+&lt;li&gt;Integraciones con bibliotecas de terceros que manipulen el DOM.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Existen dos maneras de declarar y trabajar con referencias. La primera es utilizando el método &lt;strong&gt;React.createRef()&lt;/strong&gt; el cual se incorpora a partir de la versión 16.3 y la segunda es con las &lt;strong&gt;callback refs&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2&gt;Primer ejemplo con referencias&lt;/h2&gt;
+&lt;p&gt;En el primer &lt;a href=&quot;https://codepen.io/Javier_Herrero/pen/yLLraKO?editors=0010&quot;&gt;ejemplo&lt;/a&gt; que vamos a desarrollar, crearemos una referencia al titulo del componente, para cambiar su color cuando pulsemos un botón:&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 430px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/b06d314f5f9ca15bde3195db012b9c9a/e82b9/Ejemplo_basico.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 60%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAABnklEQVQoz52S3ZabIBSF8xqNCAgoKApEq5lZ04u+/0vtHtDYZDrtRS+2nCXwsc/PRbkAPdygY4SeSX1CG+8w4wyz0P85QPkBZltg1rmc6ZyFFAJ1XYNz/qKLkBJCtWgTQeJaYO24oB/GcpELjjofbhrUjQSjOIN28T+gF0Ev8ZpBuQnd7QN9Wgk2QMgGShso00E2CkpJtEbB2RbGaIi/OqQNQS6kcRDdCOM8+jijtT2snzB+fy/rNDksy4RtiwjB0wPqa2D+5M2UPJzT0OSiyek90mLsjBnFVcXK+oB9XveUKVjmhI91xTwm9M6hun47dEXFalwz5JObV+01PYGccQwuoh/XkmKuZXz/iWl9Q3AtlsGikYLcVXQxO60Op2zP4oAeNdwLLOiC8Te0PiDcf8CnBR2Nz5A2hJjgbxtcrq8bcH+7I4yeYg/Tj9TYukBPYHaplYaNG4ylLp/jQaugmgpZup2VJ0BrXWpdxo70Aswwa+3eDC6OIrOneWNPKzsb9Ht/h2VoAebXsp4P8H824As9HGZXGZZffD7wX1DSL0z5T2rH7xAEAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/b06d314f5f9ca15bde3195db012b9c9a/e82b9/Ejemplo_basico.png&quot;
+        srcset=&quot;/static/b06d314f5f9ca15bde3195db012b9c9a/cf440/Ejemplo_basico.png 148w,
+/static/b06d314f5f9ca15bde3195db012b9c9a/d2d38/Ejemplo_basico.png 295w,
+/static/b06d314f5f9ca15bde3195db012b9c9a/e82b9/Ejemplo_basico.png 430w&quot;
+        sizes=&quot;(max-width: 430px) 100vw, 430px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Como podemos observar, creamos una referencia en el constructor llamada &lt;em&gt;title&lt;/em&gt; mediante el método &lt;em&gt;createRef()&lt;/em&gt;.
+Después, en el método &lt;em&gt;render()&lt;/em&gt; asignamos al elemento h1 la referencia creada en el constructor mediante el atributo &lt;em&gt;ref&lt;/em&gt;. Mediante este método estamos enlazando el nodo del DOM a la referencia.&lt;/p&gt;
+&lt;p&gt;Ahora vamos a cambiar el color del título h1 cuando pulsemos el boton. Para ello invocamos a un método que realiza este proceso:&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/feee3d15a3426b2f8bd95f8cfe3c7277/a9dd4/Funcion_Boton.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 5.074971164936564%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAABCAYAAADeko4lAAAACXBIWXMAAAsSAAALEgHS3X78AAAAQklEQVQI1xWM2w2AIBDAXAQ45J4G9x+v4l+bJr1674gI0wrNB/VkLWXcdjh4d5JpRBRVhZmREccdP316MWTSWuN/fWkbHHSAr+wKAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/feee3d15a3426b2f8bd95f8cfe3c7277/b9e4f/Funcion_Boton.png&quot;
+        srcset=&quot;/static/feee3d15a3426b2f8bd95f8cfe3c7277/cf440/Funcion_Boton.png 148w,
+/static/feee3d15a3426b2f8bd95f8cfe3c7277/d2d38/Funcion_Boton.png 295w,
+/static/feee3d15a3426b2f8bd95f8cfe3c7277/b9e4f/Funcion_Boton.png 590w,
+/static/feee3d15a3426b2f8bd95f8cfe3c7277/a9dd4/Funcion_Boton.png 867w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;En dicho método accedemos a la referencia mediante su propiedad &lt;em&gt;current&lt;/em&gt; la cual es la que representa el nodo del árbol DOM (&lt;strong&gt;Nota:&lt;/strong&gt; No podemos hacer uso de la propiedad current en componentes de función, ya que estos no poseen instancias), y cambiamos su color:&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 473px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/1de27143d3279f266e92179e868b7a3a/f87d7/Funcion_Cambia_Boton.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 32.558139534883715%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsSAAALEgHS3X78AAABOklEQVQoz21R7XKDIBD0LRoVPwD5UhBNokmaJu//VtuTxGk70x87d+wxsLuXxdjj+bjg875iWSeMMcKHAC4E2h18B6ezBN/6tkXbNJC8Bd96QlVVyBoigwsw8YLOH+HPV8TrAy6e4JcbxvWO4bgS94SnGi4PTOsNzllEp/E1e8TewVgDxhiyuq5R1QyNUBA2QBoa+ggzBOhhRD+doJyHG4903rgIO87JgekEotWQgid19a5wHmZSOYCVOaFAWeQo8zzV4vBB/eEHaXZ43SNFeclQENjvB7XU0J2GcCMkwYSJlC2wIcJN52TZ9IHiuCX1PXGW7nRSYrQKp8GSWklOa2ScgpZS0G8lGgp7QwpedmTrXaVKyxFKp7rPNjGCltG9F7PFlymlUpOyrNgL7B8Qz+jTv1yVrG7YM/wG673HPd6aLfoAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/1de27143d3279f266e92179e868b7a3a/f87d7/Funcion_Cambia_Boton.png&quot;
+        srcset=&quot;/static/1de27143d3279f266e92179e868b7a3a/cf440/Funcion_Cambia_Boton.png 148w,
+/static/1de27143d3279f266e92179e868b7a3a/d2d38/Funcion_Cambia_Boton.png 295w,
+/static/1de27143d3279f266e92179e868b7a3a/f87d7/Funcion_Cambia_Boton.png 473w&quot;
+        sizes=&quot;(max-width: 473px) 100vw, 473px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;Referencias y componentes de funcion&lt;/h2&gt;
+&lt;p&gt;Como hemos comentado anteriormente, no puedes usar el atributo ref en componentes de función debido a que no tienen instancias, por ello debemos convertirlo a un componente de clase.&lt;/p&gt;
+&lt;p&gt;Pero, podemos utilizar referencias dentro de componentes de función solamente si &lt;strong&gt;hacen referencia a un elemento del DOM o de un componente de clase&lt;/strong&gt;. En el siguiente &lt;a href=&quot;https://codepen.io/Javier_Herrero/pen/MWWRbQQ?editors=0010&quot;&gt;ejemplo&lt;/a&gt;, encontramos un componente de función &lt;em&gt;CustomTextInput&lt;/em&gt;, el cual maneja una referencia, pero se refiere a un elemento &lt;em&gt;input&lt;/em&gt;, gracias al cual podemos trabajar con la referencia:&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 461px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/a25066078a923eb0089d8566fa6f9cab/f4334/Referencia_CFuncion.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 92.84164859002169%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAAAsSAAALEgHS3X78AAACMklEQVQ4y41U2XLbMBDzbySmJIqXROq2Didu0k5n2v//JBRknEwOu/EDvDS1i8GCS+5MM0GHEb4JWJYO2zZgWXus60ts+x51P6EOAdYa5HmekGUZ8uLd+ry/05VG1TkWGTSTRdUYdKtnVAijgw0G9VjDtfzGHBsUcy1coxMi6QdC1wUmeKJFOPQk94wRA4kCKhK2U41xbTAsDf9bKFuSzKBU8gNZIpTGw9QN/DDDjxus71CWmoQPaR28xTS1mOcOXRuglYIQApnI3shifF3vStdAmgq5ruArhXGoWVgh1Aq+don87u4+Yb/ff1H0RaFtRvSPvzE+/8V8esa0bYxPOBDLOuHhYcIwdFBU9l7RVUKl2UKeoZASuSwhsvihQEbEBFkUVFmiYPxcfAk7UxroQrLwbPDZj0u4pOgLYe97DP0GZx2TxX+Tb1KYsxUdBsQBL5RNReKTR7eqS4RF9EkWaLef6LcntM5g9A7yG/OvE1JhRHPYSHhCNx8xxrj9gG2GdLrx+60W7OKPMhb1/MS2xzS4kcQYk05enC0Q4jWKFK/Z8KawXR4xnX5hbms8crAHR+JcwMochnC6hOH4VEZBl/K6wlfCjv5Nz3/QH1a+NBuW4wnjvPH1OWI68Fo6Pg6c2bayJJZv43W55dhiVUO7Myo+VaHlHQ9QzqPknuCgp3bPrV9tOZ6wi96RROzvWbBn3L+sE3h/uZdfUHNRobWWLUseQPntSNw0hx+uW9y84s2t+AeDfBQtZSWovwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/a25066078a923eb0089d8566fa6f9cab/f4334/Referencia_CFuncion.png&quot;
+        srcset=&quot;/static/a25066078a923eb0089d8566fa6f9cab/cf440/Referencia_CFuncion.png 148w,
+/static/a25066078a923eb0089d8566fa6f9cab/d2d38/Referencia_CFuncion.png 295w,
+/static/a25066078a923eb0089d8566fa6f9cab/f4334/Referencia_CFuncion.png 461w&quot;
+        sizes=&quot;(max-width: 461px) 100vw, 461px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;Referencias trabajando con un componente hijo&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Nota&lt;/strong&gt;: El código generado en este apartado lo puedes encontrar &lt;a href=&quot;https://github.com/franberchez/Codigo_React&quot;&gt;aquí&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;A veces es necesario trabajar con referencias en componentes y sus derivados. Aquí plantearemos un ejemplo en el que hacemos click en un componente padre, y queremos que cambie tanto el color del padre como el color del hijo.&lt;/p&gt;
+&lt;p&gt;En primer lugar crearemos ambos componentes, los cuales tendrán una cabecera simple:&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 409px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/f0f8d421c734973e366228ac71e6ec68/7e261/Padre.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 76.77261613691931%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAAsSAAALEgHS3X78AAAB1ElEQVQ4y41UbZKiMBT0HhISQghfCRAQZbScmvtfqreBlXXUWv3R9V4gdrpfGne1dRiqgMIU8OMFVRhhbYWuaJAbC5cbtIWFThJEcYx9FCESAlEkliqImM/nKlh3fdXjp7/yhw7h/AM3nuFJNvkjDElCleM7eJxbHuzKZT36Ep4H1TbjoWYjnbFLVAKtNGQsIdnLRENJRUXpskEphVQnMGmyVJ0o9nqpCd9JKR8Iqcy4AcZ7ZKcAXThkDdURuvYwxx6qLqFb9tMIPbSwh7COgPafLEue0tDO9/WE49ijKEqktBGJeNkgZgXxXU/Mqm6KbmSbwvmlIjqq7Hk53nWLnVTJBVrSNjfO1XCtYrEqu0H8Jt3NM5JssjrQ9oDudMHQtTjzIi59iytVH7sGX33HdYPWO+S5RaJTKG1IIn4rVH8HO1fNCNVVjaZpaL1AUdaYpgkhBLRdgHM1+uGArm2QFRVSznsljJ8J5WzNppCZWchvtvb7/YYle9Ha/7MsXls2loqmM2+3htYa8Z2Nd3h5KSUjorMKUqxDf9z4CdmaQ+bJZNkSUkE7jxY+Jd4Irc23kH6q4r+E2wXc0n6H6MXQ3xK6u3+bruzWcPNZ6RmTw/T0rb7DHwUMpJNuYfeSAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/f0f8d421c734973e366228ac71e6ec68/7e261/Padre.png&quot;
+        srcset=&quot;/static/f0f8d421c734973e366228ac71e6ec68/cf440/Padre.png 148w,
+/static/f0f8d421c734973e366228ac71e6ec68/d2d38/Padre.png 295w,
+/static/f0f8d421c734973e366228ac71e6ec68/7e261/Padre.png 409w&quot;
+        sizes=&quot;(max-width: 409px) 100vw, 409px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 377px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/0c943e8a1fef2ec7f078d41d9530f254/f6cb0/Hijo.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.70026525198939%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsSAAALEgHS3X78AAAB8ElEQVQ4y41T2XLbMAz0V3QSSzwkXqIsktZtO02m/f+P2oKqnTppp/HDDkiBWi4W4M5rj0Y3sMrCtgH2EKGNQ6McHKGSAo1RdEZBVRU453+BMfa+3vVNwtT2RGDRpglhfoFSGp7IkusgOMPgLQKR6kxYFGAbSpRl+U52iztWaxRSESqUtUQpOERtILQFp0sEkbPGgqkagkgrT6obB+kMlKVzXHxUqNuEbrogLBOadYAbe9gwwcQZJiz0cwtzGqFiB9V5WlNupf2Y4GKAFJ8Ic0kpevx8XTH3R6T2AKMq7J++odg/o6Dy9k8U93tCgeKZYt5TLCn3wU8i3kkpwUh2ZwL6dkBHfiptUFHJmsrMvtkcyQ5dya1JeV3TOpNsPl69ZFlhJqyy2dk7OmziAkU2jC8/cOxaXPqEt+mI16nHZTxiSQFvc48xHOCcQ13XkNQHkTluCjOEyOBQxsIdz+iHASkltGSBbRqczmespxPGacYwDvTdYxwnxBhhDj2086Sy/EOYVUpSmOfQUFNuZt+QS7vH7duW/1yyUjS4pOL3PJUb/jXAXyKXrLWGpXnKt/3vIHuQdJeNLa7tvy/xHve5LwkFebWBi60x8gqe92QHvxvchwjnbsZKL6KjdzscRixhxkLR+4h4+o5uWLamPUKW8Qv8D4lttaDVKQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/0c943e8a1fef2ec7f078d41d9530f254/f6cb0/Hijo.png&quot;
+        srcset=&quot;/static/0c943e8a1fef2ec7f078d41d9530f254/cf440/Hijo.png 148w,
+/static/0c943e8a1fef2ec7f078d41d9530f254/d2d38/Hijo.png 295w,
+/static/0c943e8a1fef2ec7f078d41d9530f254/f6cb0/Hijo.png 377w&quot;
+        sizes=&quot;(max-width: 377px) 100vw, 377px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Para mantener el principio de encapsulación entre los componentes, es necesario que cada componente manipule su propio DOM, y que el componente padre no sepa cómo modificar el DOM de su hijo. Para ello pasaremos una propiedad al elemento hijo (&lt;em&gt;clicked&lt;/em&gt;), mediante la cuál sabrá cuándo modificar su DOM, haciendo el código más simple y fácil de entender.&lt;/p&gt;
+&lt;p&gt;Una vez completamos ambos componentes, quedarían de la siguiente forma: &lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/1a83f1491dc202cb50bfa02bf0dc86fc/331ea/Padre_Completo.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 57.870370370370374%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsSAAALEgHS3X78AAABgUlEQVQoz41T13LjMAzUd5zYO9VOjtxmkv//rQ1AxRPfOfbkYUcUQJRdgJ2tFTYPcGWEKQmmZjiC1hpSSiilfsQzXxfGDbFOsJRASQZf3gMahNghxd1ZPk3axfmIv+cr1tMFh+s78rIhUAFjLDTBOA/rA4x1+5nwskPjAlLyKDkiJwcfI3wiyoYSeD4XhDKQPe1nwsuE67pgmCfUaYGLhTozjZ5SFNBo9hD9n0ZVfOEl5VAXTNsFp/cPrNcPTG9n5GnFvK6Y5hkDFfIhPgQ/7ZCnqbWC0XL/km7s0KwZwTrWzz6d9kPCcRqRSyW6uSWRpJ0NqTlF33+DqP9Pm//7/l9bl2LFPG+ow4iR9rCkhFpIfBqCpu4s0Q25tsG4NpjcJODi7CuFhpkDQghtdzumVQ8b1rcNp/OlYTsesWxnpPmASAvvaG0cBd9WyDoHpU2TJATaDO/g2KYoIXdiqSveOW19q3zTj8H2Nmlxt9g3yvKbrhD7Q+gMP7G7C4+Qvx4I4xMeKE2gZM3bAwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/1a83f1491dc202cb50bfa02bf0dc86fc/b9e4f/Padre_Completo.png&quot;
+        srcset=&quot;/static/1a83f1491dc202cb50bfa02bf0dc86fc/cf440/Padre_Completo.png 148w,
+/static/1a83f1491dc202cb50bfa02bf0dc86fc/d2d38/Padre_Completo.png 295w,
+/static/1a83f1491dc202cb50bfa02bf0dc86fc/b9e4f/Padre_Completo.png 590w,
+/static/1a83f1491dc202cb50bfa02bf0dc86fc/331ea/Padre_Completo.png 864w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/87a7825725aeecff2cf376e97d5b70f1/9dbfb/Hijo_Completo.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.13031161473087%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsSAAALEgHS3X78AAABsklEQVQ4y41TWXbbMBDTNWJJlriTohbKrpf09f7XQkEmceXETvOBB3pIzQMw40qnE9ScYKcTwvEKmyaI4CDnEco77Pd7tG1b+Bm295UMCWG9Yrn8QUxHaO3QdQJtXaMh8uMbmmbz+99527TqTcRAhafXC35dTljSDDtEhOUI5QKkMhDaszaVmp8SNOt+WmF9+KpQKwkle2j1BtF3vOCDrvtkqUMvJLq+p4OOLAp/abgcVyyHFeffVxwvZ0zrAY5qdBhhnEdPheUc4p3NLe4sS8EP/ARHC25ms5k8JsawQilFVQJCvvGPhqK04TRHDOsJ8XAuGeWGhTntYDUsY8n2Pqt5hMqbAGM8g2f4tNdLSagCwbPKGVOdZHY/WaFKSI1OWapaiqqclfYDeYR1FjE6OEOVWpWBtE+s3hquaYS3BnsGvnt5wW63Q/0B7uHunev3vWya+raPj5rSssMQJu4Zc6Si0RmyQaAqY21RKhhJVp5dZOTaU4V7FgX/HQOXdhwC5jHikFLhGCMsP86rkycttSVMyfdpQ5mHkBeWyA+aB3tW9q/ZoP3G8kfx7uI/k/xuKH8BqLWHLTbPfPoAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/87a7825725aeecff2cf376e97d5b70f1/b9e4f/Hijo_Completo.png&quot;
+        srcset=&quot;/static/87a7825725aeecff2cf376e97d5b70f1/cf440/Hijo_Completo.png 148w,
+/static/87a7825725aeecff2cf376e97d5b70f1/d2d38/Hijo_Completo.png 295w,
+/static/87a7825725aeecff2cf376e97d5b70f1/b9e4f/Hijo_Completo.png 590w,
+/static/87a7825725aeecff2cf376e97d5b70f1/9dbfb/Hijo_Completo.png 706w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Si has revisado el código, habrás visto el siguiente fragmento, tanto en el padre como en el hijo:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;this.setSubHeaderRef = element =&amp;gt; { this.subHeaderRef= element;};&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Esto se conocen como &lt;strong&gt;referencias mediante callback&lt;/strong&gt;, que proporcionan un control más detallado sobre las referencias. En vez de utilizar &lt;em&gt;createRef()&lt;/em&gt;, pasamos una función, que recibe una instancia del componente React o el elemento DOM. El uso de ambos es correcto, pero &lt;em&gt;createRef()&lt;/em&gt; se ha introducido en las últimas versiones de React, y por tanto el uso es más aconsejable.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h2&gt;Enlaces de interés&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://ed.team/blog/no-uses-getelementbyid-en-react-usa-las-referencias&quot;&gt;https://ed.team/blog/no-uses-getelementbyid-en-react-usa-las-referencias&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://es.reactjs.org/docs/refs-and-the-dom.html&quot;&gt;https://es.reactjs.org/docs/refs-and-the-dom.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/@normancolomagarca/manejando-referencias-sobre-diferentes-contextos-en-react-bc3ff674b568&quot;&gt;https://medium.com/@normancolomagarca/manejando-referencias-sobre-diferentes-contextos-en-react-bc3ff674b568&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Formularios]]></title><description><![CDATA[Ahora pasamos a profundizar sobre los formularios con React. Estos tienen un comportamiento diferente que en HTML, ya que podemos manejar su…]]></description><link>https://gatsby-starter-blog-demo.netlify.com/formularios/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com/formularios/</guid><pubDate>Fri, 15 Nov 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;Ahora pasamos a profundizar sobre los formularios con React. Estos tienen un comportamiento diferente que en HTML, ya que podemos manejar su estado utilizando el estado de los componentes de React, haciendo más fácil el procesamiento de datos introducidos por el usuario.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h2&gt;Formulario simple&lt;/h2&gt;
+&lt;p&gt;En el siguiente &lt;a href=&quot;https://codepen.io/Javier_Herrero/pen/OJJQLgg?editors=0010&quot;&gt;ejemplo de formulario&lt;/a&gt;, podemos observar un formulario muy simple, el cual recoge el nombre que introducimos en el &lt;em&gt;input&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h3&gt;Componentes controlados&lt;/h3&gt;
+&lt;p&gt;Ahora vayamos un paso más allá. Por ejemplo, queremos que los datos introducidos actualicen el estado del nodo cada vez que sufren un cambio (mientras el usuario introduce los datos, por ejemplo). Para ello, utilizaremos el siguiente &lt;a href=&quot;https://codepen.io/Javier_Herrero/pen/bGGLbML?editors=0010&quot;&gt;ejemplo&lt;/a&gt;. Podemos observar que cada vez que introducimos datos, el componente lo muestra en mayúscula, por lo que actualiza el contenido del campo ‘name’, y posteriormente, una vez que pulsamos el botón de ‘Enviar’, se muestra una alerta por pantalla.&lt;/p&gt;
+&lt;p&gt;Este elemento del formulario creado se conoce como &lt;strong&gt;componente controlado&lt;/strong&gt; ya que tiene enlazado su &lt;em&gt;value&lt;/em&gt; con el estado del componente. Esto permite, por ejemplo, realizar comprobaciones o validaciones mientras el usuario introduce datos, y a su vez, reflejarlo en el input, en este caso, cambiandolo a mayuscula. Estos componentes los podemos utilizar en elementos de formularios como input, textarea y select.&lt;/p&gt;
+&lt;p&gt;Ahora pasemos a trabajar con algunos de estos elementos en React. Para ello vamos a crear un formulario que tome los datos de nuestra película favorita y los muestre mediante una alerta una vez que hemos enviado el formulario. El ejemplo lo tienes &lt;a href=&quot;https://codepen.io/Javier_Herrero/pen/bGGzegQ?editors=0010&quot;&gt;aquí&lt;/a&gt;, en el que podemos trabajar con los elementos de formulario nombrados anteriormente. &lt;/p&gt;
+&lt;p&gt;El primer elemento que vamos a utilizar es un &lt;em&gt;input&lt;/em&gt; en el cual vamos a introducir el nombre de la película:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;&amp;lt;input type=&amp;quot;text&amp;quot; onChange={this.onChange} name=&amp;quot;name&amp;quot; value={this.state.name} /&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Como podemos observar, cada vez que el elemento de tipo &lt;em&gt;input&lt;/em&gt; es cambiado, se invoca a un método onChange, el cual actualiza el estado del elemento mediante &lt;em&gt;setState()&lt;/em&gt;. El siguiente elemento con el que trabajaremos es un &lt;em&gt;textarea&lt;/em&gt;, en el que introducimos la descripción de la película:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;&amp;lt;textarea onChange={this.onChange} value={this.state.description} name=&amp;quot;description&amp;quot;/&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;El comportamiento de este elemento es el mismo que el anterior, es decir, cada vez que es alterado, se invoca a la función onChange, el cual cambia el estado mediante &lt;em&gt;setState()&lt;/em&gt;. Podemos comprobar el funcionamiento de la funcion &lt;em&gt;onChange&lt;/em&gt; abriendo la consola y cambiando el estado de los elementos. Lo mismo ocurre con el elemento &lt;em&gt;select&lt;/em&gt;:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;&amp;lt;select onChange={this.onChange} value={this.state.gender} name=&amp;quot;gender&amp;quot;&amp;gt;
+    &amp;lt;option value=&amp;quot;terror&amp;quot;&amp;gt;Terror&amp;lt;/option&amp;gt;
+    &amp;lt;option value=&amp;quot;comedia&amp;quot;&amp;gt;Comedia&amp;lt;/option&amp;gt;
+    &amp;lt;option value=&amp;quot;romantica&amp;quot;&amp;gt;Romantica&amp;lt;/option&amp;gt;
+&amp;lt;/select&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Resumiendo, todos estos componentes pueden trabajar de forma similar, mediante un atributo &lt;em&gt;value&lt;/em&gt;. Así podemos hacer nuestros formularios con React.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h3&gt;Componentes no controlados: &lt;em&gt;file input&lt;/em&gt;&lt;/h3&gt;
+&lt;p&gt;Hasta ahora hemos visto que podemos manejar cualquier elemento de un formulario, pero existe una excepción, el campo de tipo fichero &lt;em&gt;file&lt;/em&gt;. Este campo es de solo lectura, y por tanto no puede ser modificado (&lt;strong&gt;componente no controlado&lt;/strong&gt;).&lt;/p&gt;
+&lt;p&gt;Por ello, se debe acceder a él mediante una referencia al DOM gestionada por React, como se especifica en el siguiente &lt;a href=&quot;https://codepen.io/Javier_Herrero/pen/PooQYyJ&quot;&gt;ejemplo&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h2&gt;Enlaces de interés y ampliación de contenidos&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://books.adalab.es/materiales-front-end-d/sprint-3.-es6-y-react/3_9_formularios_react&quot;&gt;https://books.adalab.es/materiales-front-end-d/sprint-3.-es6-y-react/3_9_formularios_react&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://es.reactjs.org/docs/forms.html&quot;&gt;https://es.reactjs.org/docs/forms.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/techwomenc/formularios-en-react-21181b6b4bd4&quot;&gt;https://medium.com/techwomenc/formularios-en-react-21181b6b4bd4&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Manejador de eventos]]></title><description><![CDATA[Los eventos de React se nombran usando camelCase que es un método de escritura el cual se configura como mayúscula/minúscula, en vez de tan…]]></description><link>https://gatsby-starter-blog-demo.netlify.com/manejador-eventos/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com/manejador-eventos/</guid><pubDate>Wed, 13 Nov 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;Los eventos de React se nombran usando camelCase que es un método de escritura el cual se configura como mayúscula/minúscula, en vez de tan solo minúsculas. Debemos tener en cuenta también que al evento se le pasa la función y no una cadena de texto como un string.&lt;/p&gt;
+&lt;p&gt;Estos eventos se definen normalmente de una manera declarativa, en el código de la vista o template, producida con JSX en el método render().&lt;/p&gt;
+&lt;p&gt;Por último, en React es interesante conocer que si quieres prevenir el comportamiento por defecto o la propagación de un evento hay que hacerlo explícitamente llamando a los métodos &lt;strong&gt;&lt;em&gt;preventDefault&lt;/em&gt;&lt;/strong&gt; y &lt;strong&gt;&lt;em&gt;stopPropagation&lt;/em&gt;&lt;/strong&gt; respectivamente.&lt;/p&gt;
+&lt;h2&gt;Funcionamiento&lt;/h2&gt;
+&lt;p&gt;Para la definición de un evento deberemos considerar dos cosas fundamentalmente, una que el tipo tipo de evento que queremos implementar y luego el método que hará las veces de manejador de eventos.&lt;/p&gt;
+&lt;p&gt;Un ejemplo en HTML de manejador de eventos seria el siguiente:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;&amp;lt;button onclick = &amp;quot;activeLasers()&amp;quot;&amp;gt;
+    Activate Lasers
+&amp;lt;/button&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Mientras que un manejador de eventos en React se configura de la siguiente forma:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;render(){
+    return(
+        &amp;lt;button onClick = {this.activeLasers}&amp;gt;
+            Activate Lasers
+        &amp;lt;/button&amp;gt;  
+    ) 
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Una buena herramienta en la que podemos este ejemplo es &lt;a href=&quot;https://codepen.io/gaearon/pen/xEmzGg?editors=0010&quot;&gt;codepen&lt;/a&gt; y en la que podremos estudiar todo el funcionamiento del manejador de eventos en mucha mas profundidad.&lt;/p&gt;
+&lt;p&gt;Debemos aclarar que las declaraciones de eventos en React tienen siempre la misma estructura, es decir, el prefijo &lt;strong&gt;on&lt;/strong&gt;, seguido del tipo de evento que queremos capturar como por ejemplo &lt;strong&gt;onClick&lt;/strong&gt; y como valor pondremos una referencia al método del componente encargado de procesar el evento correspondiente que queremos ejecutar.&lt;/p&gt;
+&lt;h2&gt;Eventos sintéticos&lt;/h2&gt;
+&lt;p&gt;Podemos definir los eventos sintéticos como una envoltura de los eventos nativos del navegador, por lo que estos eventos cuentan con la misma interfaz de los eventos nativos, con la ventaja de que todos estos eventos funcionan indénticamente en la mayoría de los navegadores.&lt;/p&gt;
+&lt;p&gt;En este caso &lt;strong&gt;&lt;em&gt;event&lt;/em&gt;&lt;/strong&gt; es un &lt;strong&gt;evento sintético&lt;/strong&gt; y hay que aclarar que en React todos los manejadores de eventos son instacias de &lt;strong&gt;&lt;em&gt;SyntheticEvents&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2&gt;Eventos disponibles&lt;/h2&gt;
+&lt;p&gt;React ya inluye de manera inicial una serie de eventos como onKeyUp, onKeyPress, onKeyDown etc.&lt;/p&gt;
+&lt;p&gt;Por lo que si tenemos que usar un evento que no se encuentre en el listado de eventos, lo tendríamos que hacer como si no lo hicieramos en React. Registrando el evento desde DOM o con JavaScript usando &lt;strong&gt;&lt;em&gt;addEventListener&lt;/em&gt;&lt;/strong&gt; que sirve para agregar escuchadores de eventos.&lt;/p&gt;
+&lt;h2&gt;Pasando argumentos a escuchadores de eventos&lt;/h2&gt;
+&lt;p&gt;Dentro de un bucle es muy común querer pasar un parámetro extra a un manejador de evenetos, como por ejemplo el id de una fila:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;&amp;lt;button onClick={(e) =&amp;gt; this.deleteRow(id, e)}&amp;gt;Delete Row&amp;lt;/button&amp;gt;
+&amp;lt;button onClick={this.deleteRow.bind(this, id)}&amp;gt;Delete Row&amp;lt;/button&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Como vemos en este ejemplo, ambas líneas son equivalentes aunque la principal diferencia entre ellas es que una utiliza una &lt;strong&gt;&lt;em&gt;función flecha (=&gt;)&lt;/em&gt;&lt;/strong&gt; y la otra utiliza &lt;strong&gt;&lt;em&gt;Function.prototype.bind&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;En ambas líneas, el argumento &lt;strong&gt;e&lt;/strong&gt; que representa el evento de React va a ser pasado como un segundo argumento después del id, aunque encontramos la diferencia de que con la función flecha este debemos pasarlo explictamente, sin embargo con &lt;strong&gt;bind&lt;/strong&gt; cualquier argumento adicional es pasado automáticamente.&lt;/p&gt;
+&lt;p&gt;En las funciones no es posible acceder a &lt;strong&gt;this&lt;/strong&gt; como refrencia al objeto sobre el que se invoca el método, es por ello que necesitamos bindear el contexto, haciendo uso de la llamada &lt;strong&gt;bind()&lt;/strong&gt;, con la que estamos indicando en JavaScript qué es lo que quremos que valga &lt;strong&gt;this&lt;/strong&gt; dentro del método.&lt;/p&gt;
+&lt;h2&gt;Enlaces de interés&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://es.reactjs.org/docs/handling-events.html&quot;&gt;https://es.reactjs.org/docs/handling-events.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/@simonhoyos/eventos-en-react-b53179ec9683&quot;&gt;https://medium.com/@simonhoyos/eventos-en-react-b53179ec9683&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://es.wikipedia.org/wiki/Camel_case&quot;&gt;https://es.wikipedia.org/wiki/Camel_case&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://desarrolloweb.com/articulos/eventos-en-react.html&quot;&gt;https://desarrolloweb.com/articulos/eventos-en-react.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Listas y Keys]]></title><description><![CDATA[Una key es un atributo especial string que deberemos incluir cuando creemos listas de elementos o componentes como arrays. React debe…]]></description><link>https://gatsby-starter-blog-demo.netlify.com/listas-keys/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com/listas-keys/</guid><pubDate>Mon, 11 Nov 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;Una &lt;strong&gt;key&lt;/strong&gt; es un atributo especial &lt;strong&gt;string&lt;/strong&gt; que deberemos incluir cuando creemos listas de elementos o componentes como arrays.&lt;/p&gt;
+&lt;p&gt;React debe reconocer para su correcto funcionamiento que elementos son los que cambian para poder &lt;strong&gt;agregar&lt;/strong&gt;, &lt;strong&gt;eliminar&lt;/strong&gt; o &lt;strong&gt;modificar&lt;/strong&gt; elementos dentro de una lista, para ello utilizaremos la propiedad &lt;strong&gt;key&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Las keys deben ser proporcionadas a los elementos dentro del array, para proporcionar a dichos elementos una identidad con el fin de poder identificarlos y diferenciarlos, como por ejemplo:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;function Lista_Numeros(props) {
+  const numeros = props.numeros;
+  const lista = numeros.map((numero) =&amp;gt;
+    &amp;lt;li key={numero.toString()}&amp;gt;
+      {numero}
+    &amp;lt;/li&amp;gt;
+  );
+  return (
+    &amp;lt;ul&amp;gt;{lista}&amp;lt;/ul&amp;gt;
+  );
+}
+
+const numeros = [1, 2, 3, 4, 5];
+ReactDOM.render(
+  &amp;lt;Lista_Numeros numeros={numeros} /&amp;gt;,
+  document.getElementById(&amp;#39;root&amp;#39;)
+);&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;La funcion &lt;strong&gt;map()&lt;/strong&gt; lo que hace es coger cada elemento del array inicial que tenemos que es &lt;strong&gt;[1, 2, 3, 4, 5]&lt;/strong&gt;, para guardarlo en nuestro caso en la variable &lt;strong&gt;lista&lt;/strong&gt; que lo que contendrá es el listado de ese array que vamos a mostrar por pantalla.&lt;/p&gt;
+&lt;p&gt;Podemos ver este ejemplo en &lt;a href=&quot;https://codepen.io/franberchez/pen/OJJzKBM?editors=1011&quot;&gt;CodePen&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Como tenemos instalado node.js en nuestro ordenador personal para poder trabajar con React podemos probar de una forma muy gráficay sencilla la funcionalidad que nos proporciona &lt;strong&gt;map()&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/3543a3a63f67166b9fc03fc6d10cea4b/3aa4b/map.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 44.724409448818896%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAAAsSAAALEgHS3X78AAAAvklEQVQoz42QyW7EIBAF+awcbGgwYOiFNh4rM0mkSD7n/+9xlnNCHVsqPVUbfQ/9hH6m/Yz3jyQ7iejj5YFY53l2f2IacYlZqHAtuwpWnL6x1rr/MNvGS7DgngCmEKbrdJluDNMEm9TjJsIrUy6lIKIHGJMb9Y3vz9q4CJdaKzF7D3ZE1obHTd9ej01JWyXE3vtylYw0q9KafY5uCW5NEEJww5jeJaeQ4xyXL3lw81dm4ZQigL06vXcw9qofPgG194xfnQV6BwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no se ha cargado&quot;
+        title=&quot;Ops, esta imagen no se ha cargado&quot;
+        src=&quot;/static/3543a3a63f67166b9fc03fc6d10cea4b/b9e4f/map.png&quot;
+        srcset=&quot;/static/3543a3a63f67166b9fc03fc6d10cea4b/cf440/map.png 148w,
+/static/3543a3a63f67166b9fc03fc6d10cea4b/d2d38/map.png 295w,
+/static/3543a3a63f67166b9fc03fc6d10cea4b/b9e4f/map.png 590w,
+/static/3543a3a63f67166b9fc03fc6d10cea4b/3aa4b/map.png 635w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Como podemos ver lo primero que hacemos es crear un array de cuatro elementos de nombre &lt;strong&gt;a&lt;/strong&gt;. Y a continuación lo que creamos es una copia del array &lt;strong&gt;a&lt;/strong&gt; con la función &lt;strong&gt;map()&lt;/strong&gt; y usando una funcion flecha, indicaremos que para todo elemento &lt;strong&gt;e&lt;/strong&gt; que recorramos le sumaremos uno, aunque como podemos observar nuestro array &lt;strong&gt;a&lt;/strong&gt; original sigue intacto.&lt;/p&gt;
+&lt;p&gt;Para elegir una &lt;strong&gt;key&lt;/strong&gt; de forma óptima usaremos un string que identifique únicamente a un elemento de la lista entre sus hermanos.&lt;/p&gt;
+&lt;p&gt;No se recomienda usar índices para keys si el orden de los índices puede cambiar ya que esto podría impactar negativamente en el rendimiento pudiendo causar problemas con el estado del componente.&lt;/p&gt;
+&lt;h2&gt;Extracción de componentes con keys&lt;/h2&gt;
+&lt;p&gt;Las keys solo tienen sentido en el contexto del array que las envuelve, ya que por ejemplo si extrayesemos un componente &lt;strong&gt;ListItem&lt;/strong&gt;, deberías mantener esa key en los elementos &lt;strong&gt;&lt;code class=&quot;language-text&quot;&gt;&amp;lt;ListItem /&amp;gt;&lt;/code&gt;&lt;/strong&gt; del array, en lugar de en el elemento &lt;strong&gt;&lt;code class=&quot;language-text&quot;&gt;&amp;lt;li&amp;gt;&lt;/code&gt;&lt;/strong&gt; del propio &lt;strong&gt;ListItem&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Por ejemplo usar &lt;strong&gt;key&lt;/strong&gt; no tiene ningún sentido:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;function Lista_Numeros(props) {
+  const valor = props.valor;
+  return (
+    // Aquí el uso de key es incorrecto porque no hay ningún array, si en vez de &amp;quot;valor&amp;quot; usasemos &amp;quot;numeros&amp;quot; si que lo necesitaríamos
+    &amp;lt;li key={value.toString()}&amp;gt;
+      {value}
+    &amp;lt;/li&amp;gt;
+  );
+}
+
+const numeros = [1, 2, 3, 4, 5];
+ReactDOM.render(
+  &amp;lt;Lista_Numeros numeros={numeros} /&amp;gt;,
+  document.getElementById(&amp;#39;root&amp;#39;)
+);&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;Las keys deben ser únicas solo entre hermanos&lt;/h2&gt;
+&lt;p&gt;Las keys que usemos deben ser únicas entre sus hermanos, aunque no necesitan serlo de forma global. Hemos de puntualizar que podremos usar las mismas keys cuando creemos dos arrays diferentes.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;// Le paso props que es como si pasase un argumento de mi Array
+function Mostrar(props) {
+  // Recorro con la funcion map el titulo de cada elemento del array y los muestro como un vector
+  const listado = (
+    &amp;lt;ul&amp;gt;
+      {props.contenido.map((subido) =&amp;gt;
+        &amp;lt;li key={subido.id}&amp;gt;
+          {subido.titulo}
+        &amp;lt;/li&amp;gt;
+      )}
+    &amp;lt;/ul&amp;gt;
+  );
+  
+  // Recorro con la funcion map el titulo y el parrafo de cada elemento del array y los muestro como titulo y subtitulo
+  const formato_texto = props.contenido.map((subido) =&amp;gt;
+    &amp;lt;div key={subido.id}&amp;gt;
+      &amp;lt;h3&amp;gt;{subido.titulo}&amp;lt;/h3&amp;gt;
+      &amp;lt;p&amp;gt;{subido.parrafo}&amp;lt;/p&amp;gt;
+    &amp;lt;/div&amp;gt;
+  );
+                                            
+  return (
+    &amp;lt;div&amp;gt;
+      {listado}
+      &amp;lt;hr /&amp;gt;
+      {formato_texto}
+    &amp;lt;/div&amp;gt;
+  );
+}
+
+// Esto es un array
+const contenido = [
+  {id: 1, titulo: &amp;#39;Hola Mundo&amp;#39;, parrafo: &amp;#39;Estoy de vuelta!&amp;#39;},
+  {id: 2, titulo: &amp;#39;Adios Mundo&amp;#39;, parrafo: &amp;#39;Ya me voy!&amp;#39;}
+];
+ReactDOM.render(
+  &amp;lt;Mostrar contenido={contenido} /&amp;gt;,
+  document.getElementById(&amp;#39;root&amp;#39;)
+);&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Puedes verlo y probarlo en &lt;a href=&quot;https://codepen.io/franberchez/pen/eYYxKMb?editors=1010&quot;&gt;codepen&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Las keys sirven como sugerencia para React pero no son pasadas a tus componentes. Si necesitas usar el mismo valor en tu componente, deberás pasar la &lt;strong&gt;key&lt;/strong&gt; explícitamente como una propiedad con un nombre diferente.&lt;/p&gt;
+&lt;h2&gt;Enlaces de interés&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://es.reactjs.org/docs/lists-and-keys.html&quot;&gt;https://es.reactjs.org/docs/lists-and-keys.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/@simonhoyos/trabajando-con-listas-en-react-970865e8b8b6&quot;&gt;https://medium.com/@simonhoyos/trabajando-con-listas-en-react-970865e8b8b6&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://stackoverflow.com/questions/39549424/how-to-create-unique-keys-for-react-elements/39549510&quot;&gt;https://stackoverflow.com/questions/39549424/how-to-create-unique-keys-for-react-elements/39549510&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/@xadrijo/explorando-la-funci%C3%B3n-map-en-javascript-c04c42773fb6&quot;&gt;https://medium.com/@xadrijo/explorando-la-funci%C3%B3n-map-en-javascript-c04c42773fb6&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://dev.to/jtonzing/the-significance-of-react-keys---a-visual-explanation--56l7&quot;&gt;https://dev.to/jtonzing/the-significance-of-react-keys---a-visual-explanation—56l7&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/@adhithiravi/why-do-i-need-keys-in-react-lists-dbb522188bbb&quot;&gt;https://medium.com/@adhithiravi/why-do-i-need-keys-in-react-lists-dbb522188bbb&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Renderizado condicional]]></title><description><![CDATA[En React JS podemos usar operadores condicionales para verificar si un valor cumple con ciertos requisitos. El renderizado condicional en…]]></description><link>https://gatsby-starter-blog-demo.netlify.com/renderizado-condicional/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com/renderizado-condicional/</guid><pubDate>Sat, 09 Nov 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;En React JS podemos usar operadores condicionales para verificar si un valor cumple con ciertos requisitos.&lt;/p&gt;
+&lt;p&gt;El renderizado condicional en React funciona de la misma forma que lo hacen las condiciones en JavaScript, ya que usa operadores como &lt;strong&gt;if&lt;/strong&gt; o el &lt;strong&gt;operador condicional&lt;/strong&gt; con el objetivo de crear elementos que representen el estado actual, dejando que React actualice la interfaz de usuario para emparejarlos.&lt;/p&gt;
+&lt;p&gt;Un ejemplo de como podemos utilizar el referenciado condicional sería el siguiente.&lt;/p&gt;
+&lt;p&gt;Primero consideramos estos dos componentes:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;function Saludo(props) {
+  return &amp;lt;h1&amp;gt;Hola, ¿como estás?&amp;lt;/h1&amp;gt;;
+}
+
+function Despedida(props) {
+  return &amp;lt;h1&amp;gt;Adiós, ya nos veremos.&amp;lt;/h1&amp;gt;;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Lo que vamos a crear a continuación es un componente &lt;strong&gt;Saludos&lt;/strong&gt; que nos servirá para mostrar por pantalla uno de los dos componentes que hemos expuesto previamente:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;function Saludos(props) {
+  const accion = props.accion;
+  if (accion) {
+    return &amp;lt;Saludo /&amp;gt;;
+  }
+  return &amp;lt;Despedida /&amp;gt;;
+}
+
+ReactDOM.render(
+  // Intenta cambiar acccion={false}:
+  &amp;lt;Saludos accion={false} /&amp;gt;,
+  document.getElementById(&amp;#39;root&amp;#39;)
+);&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Podemos ver su funcionamiento con mayor claridad en &lt;a href=&quot;https://codepen.io/franberchez/pen/LYYeOyj&quot;&gt;CodePen&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Variable de elementos&lt;/h2&gt;
+&lt;p&gt;Podemos utilizar variables para almacenar elementos, lo que puede ayudarnos a renderizar condicionalmente una parte del componente mientras el resto del resultado no cambia.&lt;/p&gt;
+&lt;p&gt;Utilizando el mismo ejemplo de antes podemos asignar el saludo y la despedida a un botón:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;function SaludoButton(props) {
+  return (
+    &amp;lt;button onClick={props.onClick}&amp;gt;
+      Saludo
+    &amp;lt;/button&amp;gt;
+  );
+}
+
+function DespedidaButton(props) {
+  return (
+    &amp;lt;button onClick={props.onClick}&amp;gt;
+      Despedida
+    &amp;lt;/button&amp;gt;
+  );
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Y para cambiar el estado de los botones al pulsarlos lo que vamos a utilizar será el componente de estado &lt;strong&gt;SaludoControl&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;class SaludoControl extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handlesaludoClick = this.handlesaludoClick.bind(this);
+    this.handledespedidaClick = this.handledespedidaClick.bind(this);
+    this.state = {accion: true};
+  }
+
+  handlesaludoClick() {
+    this.setState({accion: true});
+  }
+
+  handledespedidaClick() {
+    this.setState({accion: false});
+  }
+
+  render() {
+    const accion = this.state.accion;
+    let button;
+
+    if (accion) {
+      button = &amp;lt;DespedidaButton onClick={this.handledespedidaClick} /&amp;gt;;
+    } else {
+      button = &amp;lt;SaludoButton onClick={this.handlesaludoClick} /&amp;gt;;
+    }
+
+    return (
+      &amp;lt;div&amp;gt;
+        &amp;lt;Saludos accion={accion} /&amp;gt;
+        {button}
+      &amp;lt;/div&amp;gt;
+    );
+  }
+}
+
+ReactDOM.render(
+  &amp;lt;SaludoControl /&amp;gt;,
+  document.getElementById(&amp;#39;root&amp;#39;)
+);&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Podemos ver su funcionamiento más claro en &lt;a href=&quot;https://codepen.io/franberchez/pen/gOOoXeZ?editors=1010&quot;&gt;CodePen&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Operadores condicionales&lt;/h2&gt;
+&lt;p&gt;Podemos utilizar algunos operadores condicionales cuando estamos trabajando con React que nos proporcionaran diferentes funcionalidades.&lt;/p&gt;
+&lt;p&gt;Entre estos operadores lógicos encontramos el &lt;strong&gt;&amp;#x26;&amp;#x26;&lt;/strong&gt; que va junto con una expresión que está encerrada entre llaves y que se evalua junto con un valor &lt;strong&gt;true&lt;/strong&gt; o un valor &lt;strong&gt;false&lt;/strong&gt;, por lo que si la condición es &lt;strong&gt;true&lt;/strong&gt;, los elementos después del operador lógico &lt;strong&gt;&amp;#x26;&amp;#x26;&lt;/strong&gt; se imprimirán, en caso de ser &lt;strong&gt;false&lt;/strong&gt; se igonorará y no se imprimirá.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;function VideoJuegos(props) {
+  const nojugados = props.nojugados;
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;h1&amp;gt;¡Recuerda!&amp;lt;/h1&amp;gt;
+      {nojugados.length &amp;gt; 0 &amp;amp;&amp;amp;
+        &amp;lt;h2&amp;gt;
+          Aún te quedan {nojugados.length} juegos por jugar.
+        &amp;lt;/h2&amp;gt;
+      }
+    &amp;lt;/div&amp;gt;
+  );
+}
+
+// Prueba a aumentar el numero de veces que aparece juego aumentando a su vez Re: en 1 cada vez que pongas juego
+const juegos = [&amp;#39;Juego&amp;#39;, &amp;#39;Re: Juego&amp;#39;, &amp;#39;Re:Re: Juego&amp;#39;, &amp;#39;Re:Re:Re: Juego&amp;#39;];
+ReactDOM.render(
+  &amp;lt;VideoJuegos nojugados={juegos} /&amp;gt;,
+  document.getElementById(&amp;#39;root&amp;#39;)
+);&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Ver en &lt;a href=&quot;https://codepen.io/franberchez/pen/xxxpjeB?editors=1010&quot;&gt;CodePen&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Otra forma que tenemos de usar el referenciado condicional es el &lt;strong&gt;If-else&lt;/strong&gt; para el cual encontramos el siguiente operador condicional &lt;strong&gt;condicion ? true : false&lt;/strong&gt;.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;  StyleCompleted() {
+      return {
+          fontSize: &amp;#39;20px&amp;#39;,
+          color: this.props.task.done ? &amp;#39;gray&amp;#39; : &amp;#39;black&amp;#39;,
+          textDecoration: this.props.task.done ? &amp;#39;line-through&amp;#39; : &amp;#39;none&amp;#39;
+      }
+  }&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Por ejemplo aqui lo que pretendemos hacer en &lt;strong&gt;color&lt;/strong&gt; por ejemplo es que si mi propiedad &lt;strong&gt;done&lt;/strong&gt; es &lt;strong&gt;true&lt;/strong&gt; con &lt;strong&gt;?&lt;/strong&gt; le pondremos el color gris y si es &lt;strong&gt;false&lt;/strong&gt; con &lt;strong&gt;:&lt;/strong&gt; le pondremos el color negro. Esto podremos ver como funciona en la aplicación que tenemos integrada en esta página de github pages, asi como revisar el código en el repositorio github de la aplicación.&lt;/p&gt;
+&lt;h2&gt;Evitar que el componente se renderice&lt;/h2&gt;
+&lt;p&gt;Hay casos excepcionales en los que es posible que queramos que un componente se oculte a sí mismo aunque ya haya sido renderizado por otro componente. Lo que podemos hacer es cambiar el comportamiento de dicho componente haciendo que devuelva &lt;strong&gt;null&lt;/strong&gt; en vez del resultado renderizado.&lt;/p&gt;
+&lt;h2&gt;Enlaces de interés&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://es.reactjs.org/docs/conditional-rendering.html&quot;&gt;https://es.reactjs.org/docs/conditional-rendering.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.nubecolectiva.com/renderizando-elementos-con-operadores-logicos-en-react-js/&quot;&gt;http://blog.nubecolectiva.com/renderizando-elementos-con-operadores-logicos-en-react-js/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.logrocket.com/conditional-rendering-in-react-c6b0e5af381e/&quot;&gt;https://blog.logrocket.com/conditional-rendering-in-react-c6b0e5af381e/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Componentes de clase]]></title><description><![CDATA[Como vimos anteriormente, React cuenta con dos tipos de componentes, los componentes funcionales y los componentes de clase. Pasemos a…]]></description><link>https://gatsby-starter-blog-demo.netlify.com/componentes-clase/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com/componentes-clase/</guid><pubDate>Thu, 07 Nov 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;Como vimos anteriormente, React cuenta con dos tipos de componentes, los componentes funcionales y los componentes de clase. Pasemos a profundizar sobre estos últimos.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h2&gt;&lt;strong&gt;Componentes de clase&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;La principal diferencia entre los componentes de clase y los funcionales son los estados y los ciclos de vida, Pero primero, vamos a ver cómo trabajar con un componente de clase.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h3&gt;Ejemplo de componente de clase&lt;/h3&gt;
+&lt;p&gt;Los componentes de clase tienen dos propiedades: &lt;strong&gt;this.state&lt;/strong&gt; y &lt;strong&gt;this.props&lt;/strong&gt;. La clase cuenta con una funcion &lt;em&gt;render()&lt;/em&gt;, la cual se encarga de renderizar el componente en el navegador, y es llamada automáticamente cuando el componente se crea o cambia de estado. Para renderizar un componente de clase, lo invocamos como un componente funcional. En este &lt;a href=&quot;https://codepen.io/Javier_Herrero/pen/wvvrvrK?editors=0010&quot;&gt;ejemplo&lt;/a&gt; puedes comprobar el uso de &lt;em&gt;this.props&lt;/em&gt; en un componente de clase.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;Estados&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Como hemos comentado, todo componente de clase tiene un estado. Es manejado por la variable state, y es actualizado mediante &lt;em&gt;setState()&lt;/em&gt;, el cual fusiona los atributos del objeto actualizador con el estado del componente anterior. Por tanto, este estado está asociado al componente y se actualiza y manipula a medida que el usuario interactúa con la aplicación.&lt;/p&gt;
+&lt;p&gt;En el siguiente ejemplo puedes ver cómo se establece el estado de un componente que es un botón, y como se actualiza cuando es pulsado:&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/aba98812cecb77131ecf271158071eb2/cb0d3/Estados.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.42105263157895%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsSAAALEgHS3X78AAAB7klEQVQ4y4VTWXLbMBTzOWJR3Dftri27SfqV+98JASk7jcep+4EZiQv4gIe3C95DGQc3rrDLDDsvCNMZ+fAbbhqgcuDaAD31MN6hbds7CCHu/nchBH4ImNDDk3Rc3zGdLggxwlgHJRUv8TAhmgbNFUI0X2TfSXeRF6VsoVyGG044/PnAcLygmxb0x1ekeUV34iPrG2I/oesjUl+qTXxMPlboi2SlkDMPJo8YPZwPkErXigQPSe5XaAOtFZTWdf9HySltL3XjiJ7+nc8z1nVG7jJ8NyGPC6uP8DHDkGyTK77wIPl7hTGVBpmrT6JW1/4HDxXmnNHSwxg8DvMR40z/DiuOlzc25xUDvw0liickDx5KSjbGwisLK3mZ/5aVFiuKd83+5Yr9ncyfiKuHbSGg4UP/C2lY4FKHNM7wmTm0AXGYK0I30hL7vMItNrL+OBq/nN/ZoBnz4YhuGNGym8b5Cs1cyprLJ4Ql2IXQWgvN16V2teL9CyU2m8Qanyvaf5BVj7lXJRujq183n2o0mr/RKMQbGuwL9htKEpqbl2JLxc6xsiLHUm6RHIJlsC0Uuy6tqZGyIRKJ647B31CGwHHfMpuGDazjyRGm5M2fwLHyuWceQ50WzVwqEhTC0hzPhiSudV1Az/ErCHw4FFLi1vlPXd6Ih61CoREAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/aba98812cecb77131ecf271158071eb2/b9e4f/Estados.png&quot;
+        srcset=&quot;/static/aba98812cecb77131ecf271158071eb2/cf440/Estados.png 148w,
+/static/aba98812cecb77131ecf271158071eb2/d2d38/Estados.png 295w,
+/static/aba98812cecb77131ecf271158071eb2/b9e4f/Estados.png 590w,
+/static/aba98812cecb77131ecf271158071eb2/cb0d3/Estados.png 646w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt; 
+Este ejemplo lo puedes probar &lt;a href=&quot;https://codepen.io/Javier_Herrero/pen/YzzYKKw?editors=0010&quot;&gt;aquí&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;Ciclos de vida&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Todos los componentes siguen unos ciclos de vida, que son funciones especiales que permiten ejecutar funciones y declarar lógica de manera más estructurada, lo cual nos proporciona mayor control sobre los componentes de la aplicación.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Constructor&lt;/strong&gt;: El estado se inicializa mediante el constructor.Este se ejecuta antes de que el componente sea montado en el DOM. Al método &lt;em&gt;constructor()&lt;/em&gt; hay que pasarle &lt;em&gt;props&lt;/em&gt; como parámetro, e invocar a super() para activar correctamente el componente.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 463px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/2a457e8316fdf7f31aa2a12cefc8f36f/2af9b/Constructor.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 49.46004319654428%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABW0lEQVQoz41SSW7DMAzML4os9SLJsrV7T4ygRYv+/01TSqnT+BAgB5oiTY5mSO3aYDANBsp4mHaBDmdI3cPZBvPksMwOXWvxee0Qa5XyGMOM4AYE28P7Hu8Zw+m9TH6XF5x+djCqhVYdrIlg5MMIQ+DDfIXRFkXBEGuznKMoK4orikWKN4DHU4mckkMfcJ5aunGA9jNcd4FsPPJSUrPA8VSkpmcWwf4YCohKoWkkyWnorMEqA06+ZNUdaG14ZhvJJZN422fYH3Ky7AbyItAjWAKMAWM1KkHMODFVlgoYDsc8Aa8WL4q51eKoHtnfGcaDJIlTP6LvBizLAsFFAq6kBhcNyVcwNlDOQWlP47FEgkOIOi1lwzB+YtKaBl3Q5A1ttcY00YbHJT0L63p8ff/gsnxgPl8xDBO9CgnnPAoa1waQ8RqyNml+Nxk3+5e2lbz6p5KjjFjwyvBfWcovlNAbZBNADGUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/2a457e8316fdf7f31aa2a12cefc8f36f/2af9b/Constructor.png&quot;
+        srcset=&quot;/static/2a457e8316fdf7f31aa2a12cefc8f36f/cf440/Constructor.png 148w,
+/static/2a457e8316fdf7f31aa2a12cefc8f36f/d2d38/Constructor.png 295w,
+/static/2a457e8316fdf7f31aa2a12cefc8f36f/2af9b/Constructor.png 463w&quot;
+        sizes=&quot;(max-width: 463px) 100vw, 463px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;componentWillMount()&lt;/strong&gt;: Este método es ejecutado justo antes de montar o renderizar el componente. Es adecuado, por ejemplo, para un cambio condicional en el estado.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;render()&lt;/strong&gt;: Este método es el se utiliza para obtener los elementos finales a mostrar por el navegador. No debe modificar el &lt;em&gt;estado&lt;/em&gt; ni realizar operaciones en el DOM.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;componentDidMount&lt;/strong&gt;: Este método se ejecuta cuando el componente se ha montado en el DOM. Solamente se ejecuta una vez, y es idóneo para trabajar de manera asíncrona o llamadas a APIs.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;componentWillReceiveProps&lt;/strong&gt;: Este método se ejecuta cuando el componente recibe nuevas props desde otro componente. Nos sirve para hacer validaciones en el cambio de las propiedades.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;componentWillUpdate y shouldComponentUpdate&lt;/strong&gt;: Este método se ejecuta antes de realizar el &lt;em&gt;render()&lt;/em&gt; en el componente, cuando se han recibido nuevos estados o &lt;em&gt;props&lt;/em&gt;. Permite validar cambios en el estado o en las propiedades. El método &lt;em&gt;componentWillUpdate&lt;/em&gt; se ejecuta cuando &lt;em&gt;shouldComponentUpdate&lt;/em&gt; retorna verdadero, y realiza los últimos cambios antes de renderizar de nuevo el componente.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;componentDidUpdate&lt;/strong&gt;: Este método se ejecuta justo después de que el componente haya sido actualizado y renderizado en el DOM.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;componentWillUnmount&lt;/strong&gt;: Este método se ejecuta antes de que el componente sea destruido o eliminado del DOM. Se suele utilizar para dejar de escuchar eventos o cancelar peticiones pendientes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h2&gt;Enlaces de interés&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://es.reactjs.org/docs/components-and-props.html&quot;&gt;https://es.reactjs.org/docs/components-and-props.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://codingpotions.com/react-componentes&quot;&gt;https://codingpotions.com/react-componentes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://carlosazaustre.es/estructura-de-un-componente-en-react//&quot;&gt;https://carlosazaustre.es/estructura-de-un-componente-en-react//&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/@simonhoyos/ciclos-de-vida-de-los-componentes-de-react-e1bf48a5ff73&quot;&gt;https://medium.com/@simonhoyos/ciclos-de-vida-de-los-componentes-de-react-e1bf48a5ff73&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Componentes]]></title><description><![CDATA[Tras conocer los conceptos básicos del lenguaje JSX y del directorio que hemos generado, pasaremos a profundizar sobre el concepto de DOM y…]]></description><link>https://gatsby-starter-blog-demo.netlify.com/explicacion-componentes/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com/explicacion-componentes/</guid><pubDate>Tue, 05 Nov 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;Tras conocer los conceptos básicos del &lt;a href=&quot;../jsx&quot;&gt;lenguaje JSX&lt;/a&gt; y del directorio que hemos generado, pasaremos a profundizar sobre el concepto de &lt;strong&gt;DOM&lt;/strong&gt; y la base de React JS, los &lt;strong&gt;componentes&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h2&gt;DOM&lt;/h2&gt;
+&lt;p&gt;El DOM es la estructura de objetos que genera el navegador cuando se carga un documento y se puede alterar mediante Javascript para cambiar dinámicamente los contenidos y aspecto de la página.&lt;/p&gt;
+&lt;p&gt;En nuestra aplicación tomaremos un nodo raíz, y todo lo que esté dentro de él será manejado por React DOM, el cual lo renderiza mediante el método: &lt;code class=&quot;language-text&quot;&gt;ReactDOM.render()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;La principal tarea de React DOM es comparar el elemento que le pasamos con el elemento anterior, y aplicar las actualizaciones necesarias en el DOM, es decir, actualiza el contenido del árbol cuando este cambia.&lt;/p&gt;
+&lt;p&gt;Para aclarar conceptos, vamos a realizar un ejemplo en el que crearemos un reloj:&lt;/p&gt;
+&lt;p&gt; 
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 503px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9c8391e27fce5bc0d3cdfcfbf01493cf/d6c85/Ejemplo_reloj.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 36.58051689860835%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsSAAALEgHS3X78AAABI0lEQVQoz42SWXKEMAxEuQcYsOUdsw0JVbn/wTptoDI1f/nokgC79STRSFog0xfiVHCeG0rJ6PseqldQSqGv4vN/1Qy8KKEgrN/YXzOmKUJEIEZj6Aca9+jaDl3XoW1v1bxKVSn1oUZrjXEYIHHGcf5g3zbMy4blOBGPF0LOSNEh50D6eBWsufMexnpoIxfZQI+qZhxHGNLYNMPHRDJzH9IWgxd+M/CO8hYh2CtWiXUYDc+M+mMsNNRIy460Hgic45QdjSNCWSHOw8YMl1e4EEjnSedJmhBJHQjirdB0fLcspDE2wDjK2otGGCUkaLF875lnWHcT3nJwjnPWd3e1VfVQNpYVSgms7Fj1uewdypK5FC6kax+9l/G3GJp0D9n1ZzD+AiBPxT/PIxx+AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/9c8391e27fce5bc0d3cdfcfbf01493cf/d6c85/Ejemplo_reloj.png&quot;
+        srcset=&quot;/static/9c8391e27fce5bc0d3cdfcfbf01493cf/cf440/Ejemplo_reloj.png 148w,
+/static/9c8391e27fce5bc0d3cdfcfbf01493cf/d2d38/Ejemplo_reloj.png 295w,
+/static/9c8391e27fce5bc0d3cdfcfbf01493cf/d6c85/Ejemplo_reloj.png 503w&quot;
+        sizes=&quot;(max-width: 503px) 100vw, 503px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt; 
+En el ejemplo, el cual puedes probar &lt;a href=&quot;https://codepen.io/Javier_Herrero/pen/RwwVVMm&quot;&gt;aquí&lt;/a&gt;, podemos observar el siguiente método:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;setInterval(function,delay)&lt;/code&gt;: El cual llama a &lt;em&gt;function&lt;/em&gt; cada &lt;em&gt;delay&lt;/em&gt; milisegundos.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Como hemos comentado, &lt;code class=&quot;language-text&quot;&gt;ReactDOM.render()&lt;/code&gt; solamente actualiza el elemento del DOM que cambia, en este caso es la hora.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h2&gt;¿Qué es un componente?&lt;/h2&gt;
+&lt;p&gt;Cualquier aplicación basada en React JS se contruye mediante componentes. Los componentes permiten separar la interfaz de usuario en piezas independientes, reutilizables y pensar en cada pieza de forma aislada. De forma coloquial, los componentes son como las funciones de JavaScript. Aceptan entradas arbitrarias (llamadas props) y devuelven a React elementos los cuales describen lo que debe aparecer en pantalla.&lt;/p&gt;
+&lt;h2&gt;Tipos de componentes&lt;/h2&gt;
+&lt;p&gt;Existen dos tipos de componentes en React:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Elementos funcionales o sin estado&lt;/li&gt;
+&lt;li&gt;Elementos de clase o con estado&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;Componentes funcionales&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Son aquellos componentes que generan elementos React, es decir, solo se encargan de mostrar o presentar datos, los cuales son aceptados mediante  argumentos, mediante un objeto &lt;em&gt;props&lt;/em&gt;. Además, los componentes locales no guardan información y no necesitan datos locales, por tanto el componente no tendrá un ciclo de vida (Concepto que se explicará más adelante).&lt;/p&gt;
+&lt;p&gt;Las propiedades o &lt;strong&gt;props&lt;/strong&gt; son parámetros que enviamos al componente durante su creación. Estos pueden ser datos para mostrar o información para inicializar el estado. Generalmente, los &lt;em&gt;props&lt;/em&gt; son de solo lectura, por tanto, no se deben cambiar en el elemento propiamente dicho.&lt;/p&gt;
+&lt;p&gt;Para comprenderlo mejor, veamos un ejemplo:&lt;/p&gt;
+&lt;p&gt; 
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/0c61bb0cb25f58dea7629d443cac650e/17788/Ejemplo_Props.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 15.061058344640434%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAAAsSAAALEgHS3X78AAAAgElEQVQI123PQQ7DIAxE0VwEMBhsDAlSlN7/alO3VbtpFl+zwU9iY+3gvsP6wrF2XI8Lc51oNlG9XAWJMkIIf8UYf/tt4yZo3aB+LKbgVkEOlMLIpYB86bWUkDP5eindYh/QoXcOyzFQx0DTAWFHHWE1yJgwa5hT/Sf+jgtSugef5JFURufY1IMAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/0c61bb0cb25f58dea7629d443cac650e/b9e4f/Ejemplo_Props.png&quot;
+        srcset=&quot;/static/0c61bb0cb25f58dea7629d443cac650e/cf440/Ejemplo_Props.png 148w,
+/static/0c61bb0cb25f58dea7629d443cac650e/d2d38/Ejemplo_Props.png 295w,
+/static/0c61bb0cb25f58dea7629d443cac650e/b9e4f/Ejemplo_Props.png 590w,
+/static/0c61bb0cb25f58dea7629d443cac650e/17788/Ejemplo_Props.png 737w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt; 
+Los argumentos son de un objeto &lt;em&gt;props&lt;/em&gt;, el cual acepta parámetros, variables, arrays, condicionales, u otros elementos de React. Por ejemplo, aquí acepta el nombre, y lo muestra en pantalla
+Puedes probar el ejemplo &lt;a href=&quot;https://codepen.io/Javier_Herrero/pen/qBBjWYK?editors=0010&quot;&gt;aquí&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;Ejemplo de aplicacion&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Ahora pasemos a realizar un ejemplo, vamos a crear una simple lista de tareas por asignaturas. Primero comenzamos por crear un elemento que liste cada tarea:&lt;/p&gt;
+&lt;p&gt; 
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 486px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/31417d49d0250b1ad27343bc7df6997e/11644/Tarea.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 15.843621399176955%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAAAsSAAALEgHS3X78AAAAdUlEQVQI14WMSw7CMBBDe5Bm3CYhJB2mUH5C3P9eZhAIxAJYWF7Y73WQwNEWokyMRZlKpVllU+Xadsw5M4RAEXm3R76kg58GB6ML52nP6t02xvl8pR0v1OXE0pRjWn1Ifwrj9sAhZUrfP6H7iMcJIIAX8E94A8uhU5L77iW3AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/31417d49d0250b1ad27343bc7df6997e/11644/Tarea.png&quot;
+        srcset=&quot;/static/31417d49d0250b1ad27343bc7df6997e/cf440/Tarea.png 148w,
+/static/31417d49d0250b1ad27343bc7df6997e/d2d38/Tarea.png 295w,
+/static/31417d49d0250b1ad27343bc7df6997e/11644/Tarea.png 486w&quot;
+        sizes=&quot;(max-width: 486px) 100vw, 486px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt; 
+Después crearemos un componente que liste las tareas por asignatura. Este elemento tendrá un título referido a la asignatura, y una serie de tareas, que será un array, en este caso con 2 elementos:&lt;/p&gt;
+&lt;p&gt; 
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/69ce9dc72a3f259e3778b09140314fac/67e88/ListaTareas.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 34.395973154362416%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsSAAALEgHS3X78AAAAz0lEQVQoz42Ra3LDIAyEfQ/zECADBpy443Z6/5NthZ102iZT58c3CEastNLg2gqOFZwKSoloNaLUGaleEEKAVgrGmG+01r/ufxmoLEghoS4bppTAzOApSoEZzgcYS7vInTPRwc4NRo/y0SLkhiidca5yLvBTBonoT6Ez0b1DksCKYMfXjHC9oFw3zJ23D7TtE+v2fozgFctWklzgfY4+RpAwieVum3M5iAlEdC7olxVOgm6NPO9L6Cg1How3+vsT6w+CrsgMb8laq3+rv7LlL1DbwZd6uPdaAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/69ce9dc72a3f259e3778b09140314fac/b9e4f/ListaTareas.png&quot;
+        srcset=&quot;/static/69ce9dc72a3f259e3778b09140314fac/cf440/ListaTareas.png 148w,
+/static/69ce9dc72a3f259e3778b09140314fac/d2d38/ListaTareas.png 295w,
+/static/69ce9dc72a3f259e3778b09140314fac/b9e4f/ListaTareas.png 590w,
+/static/69ce9dc72a3f259e3778b09140314fac/67e88/ListaTareas.png 596w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt; 
+Acto seguido creamos el componente que creará el encabezado, y que mostrará el número total de tareas que tenemos:&lt;/p&gt;
+&lt;p&gt; 
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/983619965ddbdee8ac27db37338c2080/d51e0/Header.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 21.17263843648208%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAAAsSAAALEgHS3X78AAAAqElEQVQY022QSQrDMBAE/Q5r33cZB/L/p3UmigkB51A00kBJPZtNBaYdaO2J43xgjIRYO0JKYGwH5xxCCIKS/7DuBKSU33yz+dIgQ4JTCjYUuNxRxlzS3CeJ6UFjoIyFtg7G+ZVKm5tsCV2pkDFDKwkbC+o8MeaBUtuiEilG+NQQSkdqc6XxkQTqLrSZfpArCRWk0lSRge1UlVFe8Kvme8bXmX1W8KfyC8U5b3WdBGIrAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/983619965ddbdee8ac27db37338c2080/b9e4f/Header.png&quot;
+        srcset=&quot;/static/983619965ddbdee8ac27db37338c2080/cf440/Header.png 148w,
+/static/983619965ddbdee8ac27db37338c2080/d2d38/Header.png 295w,
+/static/983619965ddbdee8ac27db37338c2080/b9e4f/Header.png 590w,
+/static/983619965ddbdee8ac27db37338c2080/d51e0/Header.png 614w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt; 
+Por último, creamos el componente principal, que será invocado desde el archivo &lt;em&gt;index.js&lt;/em&gt;, y que invocará a los demás componentes. Este componente invoca en primer lugar a &lt;em&gt;Header&lt;/em&gt; y &lt;em&gt;ListaTareas&lt;/em&gt; que a su vez invocará al componente &lt;em&gt;Tarea&lt;/em&gt;:&lt;/p&gt;
+&lt;p&gt; 
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/70adf6f67422d13cb37a64f4886da5fa/e7069/AppTareas.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 29.69374167776298%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsSAAALEgHS3X78AAAA9UlEQVQY03VQW26EMBDjHkBCmDwhPFfQVu1P738odwaW3Xalflg4RmPPuGiJYFwEuYSUPGJwME2DqqpQ1fUDdVUeWi38HyilUJDzMKFD8j1CzqDo4UKEo/aEaWBbw3qG8x4th8mw5mEx0Iq51gcXvSAfoGMHVZag3MN+bIj7jtvXN96mjG1dsK43bPs79nnEnAJGDr31EUsXkRNfx1c+DXnDhg01P0zwoHWCnUYM2ycWHuqGGcO6sZHHFB2Ss5iEM0TrEi/DGz5P5g3FUHpryJ0/Hp0Il944Xd3x2tvd6OIFWYuW7CGeqP+Yiol6Kf76ql8BF/8BgSWomJVgfzcAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/70adf6f67422d13cb37a64f4886da5fa/b9e4f/AppTareas.png&quot;
+        srcset=&quot;/static/70adf6f67422d13cb37a64f4886da5fa/cf440/AppTareas.png 148w,
+/static/70adf6f67422d13cb37a64f4886da5fa/d2d38/AppTareas.png 295w,
+/static/70adf6f67422d13cb37a64f4886da5fa/b9e4f/AppTareas.png 590w,
+/static/70adf6f67422d13cb37a64f4886da5fa/e7069/AppTareas.png 751w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt; 
+Por último desde el archivo &lt;em&gt;index.js&lt;/em&gt; invocamos a ‘AppTareas’. Previamente hemos de exportarla desde &lt;em&gt;App.js&lt;/em&gt; mediante la expresión:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;export default AppTareas;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt; 
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d12d7d05fd5f02066c1053d5f42329b3/83cbb/Invocar_AppTareas.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 15.605095541401276%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAAAsSAAALEgHS3X78AAAAiklEQVQI132OQQrDIBQFcxBNjF+NGo00hRTa+59rKqUNWXUx8PmLeTNMZiL7xLE9qMeLdn/S0saeIzk4gljGcfyL1vq8B2Mtzi0kWfCp4EsjuIgzcx8SrDEopdAddaI/kh9X6TCJIHUn1xtpa5SS8GvG9kLpQvEBnythCeQcWNdIjP1nZ+Rbfy18AwlAVKSWFMwIAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/d12d7d05fd5f02066c1053d5f42329b3/b9e4f/Invocar_AppTareas.png&quot;
+        srcset=&quot;/static/d12d7d05fd5f02066c1053d5f42329b3/cf440/Invocar_AppTareas.png 148w,
+/static/d12d7d05fd5f02066c1053d5f42329b3/d2d38/Invocar_AppTareas.png 295w,
+/static/d12d7d05fd5f02066c1053d5f42329b3/b9e4f/Invocar_AppTareas.png 590w,
+/static/d12d7d05fd5f02066c1053d5f42329b3/83cbb/Invocar_AppTareas.png 628w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt; 
+&lt;strong&gt;El código de esta aplicación lo tienes &lt;a href=&quot;https://github.com/franberchez/Codigo_React&quot;&gt;aqui&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h2&gt;Enlaces de interés&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://es.reactjs.org/docs/components-and-props.html&quot;&gt;https://es.reactjs.org/docs/components-and-props.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://codingpotions.com/react-componentes&quot;&gt;https://codingpotions.com/react-componentes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.oscarblancarteblog.com/2018/09/26/componentes-con-estado-y-sin-estado/&quot;&gt;https://www.oscarblancarteblog.com/2018/09/26/componentes-con-estado-y-sin-estado/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Introducción al lenguaje JSX]]></title><description><![CDATA[Es una extension de la sintaxis de JavaScript que nos permite mezclar JS y HTML (XML), de ahí su nombre JavaScript XML. Y se recomienda…]]></description><link>https://gatsby-starter-blog-demo.netlify.com/jsx/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com/jsx/</guid><pubDate>Mon, 04 Nov 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;Es una extension de la sintaxis de JavaScript que nos permite mezclar JS y HTML (XML), de ahí su nombre JavaScript XML. Y se recomienda utilizar en React para describir como debería ser la interfaz de usuario. Aunque React no requiere usar JSX, la mayoria de usuarios lo encuentra muy útil cuando trabajan con la interfaz de usuario ya que proporciona una syntax sugar o azúcar sintáctico que nos permite utilizarlo de una forma más fácil e intuitiva, pudiendo definir por ejemplo estructuras de nodos con prioridades y atributos o simplemente para crear elementos de React en general.&lt;/p&gt;
+&lt;p&gt;Para terminar una vez compilamos, las expresiones de JSX se convierten en llamadas a JavaScript regulares.&lt;/p&gt;
+&lt;h2&gt;Reglas de Uso&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Escribir nuestros propios componentes con mayúsula.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;&amp;lt;App /&amp;gt; &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;Escribir los componentes built-in (HTML) con minúscula.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;&amp;lt;img /&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;Funcionamiento&lt;/h2&gt;
+&lt;p&gt;Las expresiones de JSX se convierten en llamadas regulares de funciones de JavaScript que finalmente evalúan a un objeto.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;&amp;lt;h1&amp;gt;Hola mundo&amp;lt;/h1&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Esta expresión en lenguaje JSX se evaluaría en React como:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;React.createElement(&amp;quot;h1&amp;quot;, null, &amp;quot;Hola mundo&amp;quot;);&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Por ejemplo un div con un boton presenta la siguiente estructura en JSX:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;&amp;lt;div&amp;gt;
+  &amp;lt;button color=&amp;quot;red&amp;quot; &amp;gt;Hola Mundo&amp;lt;/button&amp;gt;
+&amp;lt;/div&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Mientras que en React tiene la siguiente forma:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;React.createElement(&amp;quot;div&amp;quot;, null, React.createElement(&amp;quot;button&amp;quot;, {
+  color: &amp;quot;red&amp;quot;
+}, &amp;quot;Hola Mundo&amp;quot;));&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Podremos remitirnos a &lt;a href=&quot;https://babeljs.io/repl&quot;&gt;Babel&lt;/a&gt; para poder hacer pruebas de como este lenguaje se evalúa en React.&lt;/p&gt;
+&lt;h2&gt;Etiquetas de JSX&lt;/h2&gt;
+&lt;p&gt;Los tipos en mayúscula indican que la etiqueta JSX representa un componente en React, y estas etiquetas se compilan como una referencia directa a la variable que estamos nombrando. Un ejemplo seria el siguiente:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;function HelloWorld() {
+  return(
+      &amp;lt;h1&amp;gt;Hello World&amp;lt;/h1&amp;gt;
+  )
+}
+
+ReactDOM.render(
+  &amp;lt;HelloWorld/&amp;gt;,
+  document.getElementById(&amp;#39;root&amp;#39;)
+);&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Podemos ver este ejemplo en &lt;a href=&quot;https://codepen.io/franberchez/pen/yLLZOjQ&quot;&gt;codepen&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Enlaces de interés&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/@simonhoyos/qu%C3%A9-es-jsx-95006a2f94f9&quot;&gt;https://medium.com/@simonhoyos/qu%C3%A9-es-jsx-95006a2f94f9&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://es.reactjs.org/docs/introducing-jsx.html&quot;&gt;https://es.reactjs.org/docs/introducing-jsx.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/@Thoughtworks_es/qu%C3%A9-demonios-es-jsx-txt-f5841e51f664&quot;&gt;https://medium.com/@Thoughtworks_es/qu%C3%A9-demonios-es-jsx-txt-f5841e51f664&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://carlosazaustre.es/jsx-para-novatos/&quot;&gt;https://carlosazaustre.es/jsx-para-novatos/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Navegacion por el directorio]]></title><description><![CDATA[Una vez ejecutados los comandos del anterior post, ya tenemos nuestro primer proyecto React creado. Ahora es necesario entender los…]]></description><link>https://gatsby-starter-blog-demo.netlify.com/explicacion-archivos/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com/explicacion-archivos/</guid><pubDate>Sun, 03 Nov 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;Una vez ejecutados los comandos del anterior &lt;a href=&quot;../introduccion/&quot;&gt;post&lt;/a&gt;, ya tenemos nuestro primer proyecto React creado. Ahora es necesario entender los directorios y archivos más importantes que se han generado. &lt;/p&gt;
+&lt;p&gt;En primer lugar, al entrar en el directorio, encontramos lo siguiente:&lt;/p&gt;
+&lt;p&gt; 
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/f9770aa4b53ffb0a338d3e5713222a3e/d7f79/directorio.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 12.089356110381075%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAAAsSAAALEgHS3X78AAAAhUlEQVQI1yXKzQqCQBSGYe85MITSRpuZzRTULUWXUKsgCMVFjWIoCP68jdOBl/MsvmAdrhBiw8HofzrmaBTnk0EmIUql7EWE3EUonbntFimFb7HWKVkWuxK3FQRF/qIscpraMgPf+5WhsU4T3e3CctP7yVw+vO3H+j8OI1VVe3dtS9/33j8OTH96lALDuQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/f9770aa4b53ffb0a338d3e5713222a3e/b9e4f/directorio.png&quot;
+        srcset=&quot;/static/f9770aa4b53ffb0a338d3e5713222a3e/cf440/directorio.png 148w,
+/static/f9770aa4b53ffb0a338d3e5713222a3e/d2d38/directorio.png 295w,
+/static/f9770aa4b53ffb0a338d3e5713222a3e/b9e4f/directorio.png 590w,
+/static/f9770aa4b53ffb0a338d3e5713222a3e/d7f79/directorio.png 761w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Directorio node_modules&lt;/strong&gt;: Aquí se guardan todas las dependencias del proyecto que son requeridas para el proyecto. Create-react-app ya nos habrá instalado unas cuantas por defecto.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Directorio public&lt;/strong&gt;: Esta es la raíz del proyecto y aquí estará el archivo principal: index.html y el &lt;em&gt;favicon&lt;/em&gt; (icono que aparecerá en la pestaña del navegador cuando despleguemos la aplicación). Habrá una etiqueta dentro de index.html con un id “root” que nos indica dónde se va a introducir el componente principal (App.js) de nuestra aplicación.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Directorio src&lt;/strong&gt;: En esta carpeta, es donde están los componentes y sus estilos a parte de otros ficheros javascript que necesitemos. Por defecto, el componente principal de todo proyecto React JS se llama App.js. También habrá un index.js que se encarga de introducir el componente App en el de index.html que hemos mencionado en el punto anterior.
+Encontramos también las hojas de estilo: App.css e index.css; una imagen (svg) del logo de React JS; un archivo para realizar tests sobre el componente App y un archivo javascript llamado registerServiceWorker.js.
+Este archivo introduce el concepto de &lt;strong&gt;Progressive Web App (PWA)&lt;/strong&gt;. Las PWA son aplicaciones web rápidas y confiables, y funcionan en cualquier navegador. Además, permite trabajar sin conexión, ya que almacena los datos en memoria caché.&lt;/li&gt;
+&lt;li&gt;Además, en este directorio encontramos el fichero &lt;strong&gt;package.json&lt;/strong&gt;, el cual permite realizar una breve descripción del proyecto, estableciendo campos como el nombre, la versión, las dependencias de npm necesarias para trabajar (En este caso contiene react y react-dom), y contiene los comandos (start, build, test…) necesarios para trabajar con el servidor.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt; 
+Si accedemos al directorio &lt;strong&gt;public&lt;/strong&gt;, encontramos el siguiente contenido, el cual hemos descrito anteriormente:&lt;/p&gt;
+&lt;p&gt; 
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/73a83e1927df51cd0fc5db3f32949e13/50bbc/directorio_public.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 14.550264550264549%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAAAsSAAALEgHS3X78AAAAu0lEQVQI11XMSW7CQBCFYd+XRQzxBEQ2EjfwJoeIWGSbeyA2TI4EGcB2twMObqv7xzTZpFafXr0qx/ddkmRIEg8JwwFh5DGZPDGdxoxHPl63d/0HwmCAF7j0/xxFj7YfBP1/drLNmq/PPbfpPaekrzPrY1GANgjT8lK922xxEbydPqxlVdE0zd1SorW2drJsS5Ef0K1ivlyx3d2fl6WgVS2qy79liekOfn7P5OcTGIMUgrqubVcIiVLK+gr+H8d9KYlz0QAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/73a83e1927df51cd0fc5db3f32949e13/b9e4f/directorio_public.png&quot;
+        srcset=&quot;/static/73a83e1927df51cd0fc5db3f32949e13/cf440/directorio_public.png 148w,
+/static/73a83e1927df51cd0fc5db3f32949e13/d2d38/directorio_public.png 295w,
+/static/73a83e1927df51cd0fc5db3f32949e13/b9e4f/directorio_public.png 590w,
+/static/73a83e1927df51cd0fc5db3f32949e13/50bbc/directorio_public.png 756w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt; 
+Por otra parte tenemos el directorio &lt;strong&gt;src&lt;/strong&gt;, el cual hemos descrito anteriormente:&lt;/p&gt;
+&lt;p&gt; 
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 590px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/c71aaf502cc677cd41e187d73a299fdd/9fa53/directorio_src.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 11.977715877437326%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAAAsSAAALEgHS3X78AAAAZ0lEQVQI10WLyw5AMBRE/b9IsEFp3Yr6MpKusO7DUPWYzZnccycpshRNXUJSB6UkxpGgpgFSctB16/v24d+FYJcXyPMMjFX3b/BEHImeF+zbCu8dQpyLNCbS2sgQ74/H2Zta68+9uxNHJIdkm7QEqgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ops, esta imagen no ha cargado&quot;
+        title=&quot;Ops, esta imagen no ha cargado&quot;
+        src=&quot;/static/c71aaf502cc677cd41e187d73a299fdd/b9e4f/directorio_src.png&quot;
+        srcset=&quot;/static/c71aaf502cc677cd41e187d73a299fdd/cf440/directorio_src.png 148w,
+/static/c71aaf502cc677cd41e187d73a299fdd/d2d38/directorio_src.png 295w,
+/static/c71aaf502cc677cd41e187d73a299fdd/b9e4f/directorio_src.png 590w,
+/static/c71aaf502cc677cd41e187d73a299fdd/9fa53/directorio_src.png 718w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Introduccion]]></title><description><![CDATA[React es una biblioteca escrita en el lenguaje JavaScript, desarrollada por Facebook para facilitar la creación de componentes interactivos…]]></description><link>https://gatsby-starter-blog-demo.netlify.com/introduccion/</link><guid isPermaLink="false">https://gatsby-starter-blog-demo.netlify.com/introduccion/</guid><pubDate>Fri, 01 Nov 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;React es una biblioteca escrita en el lenguaje JavaScript, desarrollada por Facebook para facilitar la creación de componentes interactivos y reutilizables, la cual está focalizada en el desarrollo de interfaces de usuario.&lt;/p&gt;
+&lt;p&gt;React es una librería lanzada como código abierto en Mayo de 2013, mantenida por Facebook y la comunidad de software libre, la cual ha experimentado una gran expansión. Gracias a esto se ha usado en el desarrollo de aplicaciones como Facebook, Instagram, BBC, Netflix, Dropbox…&lt;/p&gt;
+&lt;p&gt;Cabe destacar que no es un framework propiamente dicho, como AngularJS por ejemplo, sino que más bien es una librería, enfocada en el desarrollo de interfaces de usuario, concretamente en la visualización de contenido.&lt;/p&gt;
+&lt;p&gt;Antes de nada, aclaremos el concepto de &lt;em&gt;árbol DOM&lt;/em&gt;. Mediante este término nos referimos a la interfaz gráfica de nuestra aplicación, que tiene una estructura de árbol. Cada vez que cambiamos un nodo de este árbol, sus hijos tienen que ser generados de nuevo, hayan o no cambiado. Por ello es una tarea compleja y costosa. Ante ello React utiliza el concepto de &lt;em&gt;DOM virtual&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Es decir, hace los cambios en una copia virtual y después, utiliza un algoritmo para comparar las propiedades de la copia con las de la versión del DOM, y así, aplicar cambios solamente en las partes que varían. Esto evita el actualizar la vista entera cada vez que se modifica algún elemento, consiguiendo así una mejora significativa en el rendimiento.     &lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h2&gt;Instalación y Primeros Pasos&lt;/h2&gt;
+&lt;p&gt;Gracias a la herramienta Create React App desarrollada por Facebook, no tenemos que preocuparnos por configurar el entorno de trabajo, ya que se encarga de la configuración inicial necesaria para poder trabajar.
+Para trabajar con React necesitamos Node.js (permite ejecutar programas desarrollados en Javascript como si estuvierámos trabajando en un servidor) y NPM (es un gestor de paquetes para Javascript que permite instalar librería para aumentar la funcionalidad).&lt;/p&gt;
+&lt;p&gt;Para instalar en primer lugar NodeJS y NPM, debemos seguir los siguientes pasos:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;sudo apt-get install nodejs
+sudo apt-get install npm&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Una vez instalados, mediante NPM instalamos la herramienta Create React App&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;sudo npm install -g create-react-app (Muy importante que se ejecute como modo Administrador, con sudo)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Ahora, ¡ya estamos listos para trabajar con React!. Por último, tenemos que lanzar dicha herramienta, mediante las instrucciones:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;create-react-app NombreDeMiProyecto
+cd NombreDeMiProyecto/
+npm start&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Donde observamos que se creará un directorio con nombre &lt;em&gt;‘NombreDeMiProyecto’&lt;/em&gt;, en el que se generan una serie de directorios y archivos los cuales analizaremos en el siguiente punto.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;Anexo a la instalación: Actualizar NodeJS&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Para ver las versiones que tenemos instaladas de node y npm, podemos utilizar los siguientes comandos:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;node --version
+npm --version&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;A veces puede ocurrir que la versión de NodeJS requerida para trabajar con ReactJS sea obsoleta, por tanto, necesitamos actualizarlo. Esto se consigue gracias a los siguientes comandos:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;npm install -g n
+sudo n stable
+npm update npm -g&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h2&gt;Enlaces de interés&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://medium.com/@ger86/y-eso-del-virtual-dom-de-react-qu%C3%A9-es-3feed6366925&quot;&gt;https://medium.com/@ger86/y-eso-del-virtual-dom-de-react-qu%C3%A9-es-3feed6366925&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://desarrolloweb.com/articulos/que-es-react-motivos-uso.html&quot;&gt;https://desarrolloweb.com/articulos/que-es-react-motivos-uso.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://devcode.la/blog/como-funciona-reactjs/&quot;&gt;https://devcode.la/blog/como-funciona-reactjs/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item></channel></rss>

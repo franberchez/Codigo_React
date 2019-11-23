@@ -1,0 +1,20 @@
+[
+       {
+         "id": 0,
+        "title": "Tarea 1",
+        "description": "Presentar PW",
+        "done": false
+       },
+       {
+        "id": 1,
+        "title": "Tarea 2",
+        "description": "Estudiar para el examen",
+        "done": false
+      },
+      {
+        "id": 2,
+        "title": "Tarea 3",
+        "description": "Hacer la práctica",
+        "done": false
+      }
+]
