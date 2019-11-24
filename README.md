@@ -8,6 +8,13 @@ En las siguientes carpetas podremos encontrar el código de las aplicaciones cre
 [enlace2]: https://github.com/JavierHerreroGG1/JavierHerreroGG1.github.io
 
 
+# Ejecutar la aplicacion
+
+Para ejecutar el codigo proporcionado, tras haber seguido los pasos de instalación, solo tiene que seguir los siguientes pasos:
+~~~
+  cd nombre-repositorio
+  npm start
+~~~
 &nbsp;
 # Licencia 
 
